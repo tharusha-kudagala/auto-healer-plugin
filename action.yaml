@@ -1,0 +1,28 @@
+# action.yml
+name: 'AI Auto-Healer'
+description: 'Send the current repo to a local AI fixer running at AI Server'
+author: 'Tharusha Kudagala'
+inputs:
+  branch:
+    description: 'Branch to analyze'
+    required: false
+    default: ${{ github.ref_name }}
+
+  pat:
+    description: 'GitHub Personal Access Token (Secret)'
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Send repo to AI Auto-Healer
+      shell: bash
+      run: |
+        curl -X POST https://ai.nefraverse.com/fix \
+          -H "Content-Type: application/json" \
+          -d '{
+            "repo_url": "${{ github.server_url }}/${{ github.repository }}.git",
+            "branch": "${{ inputs.branch }}",
+            "api_key": "user-api-key",
+            "pat": "${{ inputs.pat }}"
+          }'
