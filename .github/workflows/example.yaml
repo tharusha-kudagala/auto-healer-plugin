@@ -1,0 +1,17 @@
+name: Auto-Heal Test
+
+on:
+  workflow_dispatch:
+
+jobs:
+  run-auto-heal:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Run AI Fixer
+        uses: tharusha-kudagala/ai-auto-healer@v0.1
+        with:
+          branch: main
+          pat: ${{ secrets.GH_PAT }}
